@@ -79,7 +79,7 @@ function getQuestion() {
 //Генерация ответа при угадывании
 function getAnswer() {
     let numberAnswer = Math.round( Math.random() * 3);
-    
+
     switch (numberAnswer) {
         case 0: return `Я всегда угадываю\n\u{1F60E}`;
         case 1: return `Это было довольно легко\n\u{1F642}`;
@@ -161,15 +161,8 @@ function getTextFromNumber(number) {
 function enterAndCheckValues() {
     minValue = parseInt( prompt('Минимальное значение числа для игры','0') );
     minValue = ( isNaN(minValue) ) ? 0 : minValue;
-    minValue = (minValue < -999) ? -999 : minValue;
-    minValue = (minValue > 999) ? 999 : minValue;
-
     maxValue = parseInt( prompt('Максимальное значение числа для игры','100' ) );
     maxValue = ( isNaN(maxValue) ) ? 100 : maxValue;
-    maxValue = (maxValue < -999) ? -999 : maxValue;
-    maxValue = (maxValue > 999) ? 999 : maxValue;
-
-    alert(`Загадайте любое целое число от ${minValue} до ${maxValue}, а я его угадаю`);
 
     if (maxValue < minValue) {
         alert('Неверно задан диапазон значений!');
@@ -181,6 +174,14 @@ function enterAndCheckValues() {
             alert('Неверно задан диапазон значений!');
         }
     }
+    
+    minValue = (minValue < -999) ? -999 : minValue;
+    minValue = (minValue > 999) ? 999 : minValue;
+
+    maxValue = (maxValue < -999) ? -999 : maxValue;
+    maxValue = (maxValue > 999) ? 999 : maxValue;
+
+    alert(`Загадайте любое целое число от ${minValue} до ${maxValue}, а я его угадаю`);
 }
 
 //Получение названий для чисел 1-9

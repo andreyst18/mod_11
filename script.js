@@ -25,13 +25,9 @@ document.getElementById('btnRetry').addEventListener('click', function () {
 
 //Кн. "Больше"
 document.getElementById('btnOver').addEventListener('click', function () {
-    if (gameRun){
-        if (minValue === maxValue){
-            const phraseRandom = Math.round( Math.random());
-            let answerPhrase = (phraseRandom === 1) ?
-                `Вы загадали неправильное число!\n\u{1F914}` :
-                `Я сдаюсь..\n\u{1F92F}`;
-
+    if (gameRun) {
+        if (minValue >= maxValue){
+            let answerPhrase = getFailureReaction();
             answerField.innerText = answerPhrase;
             gameRun = false;
         } else {
@@ -46,29 +42,21 @@ document.getElementById('btnOver').addEventListener('click', function () {
 
 //Кн. "Меньше"
 document.getElementById('btnLess').addEventListener('click', function () {
-    if (gameRun){
-        if (minValue === maxValue || answerNumber === minValue){
-            const phraseRandom = Math.round( Math.random());
-            let answerPhrase = (phraseRandom === 1) ?
-                `Вы загадали неправильное число!\n\u{1F914}` :
-                `Я сдаюсь..\n\u{1F92F}`;
-
+    if (gameRun) {
+        if (minValue >= maxValue ) {
+            answerPhrase = getFailureReaction();
             answerField.innerText = answerPhrase;
             gameRun = false;
         } else {
-            maxValue = answerNumber; // + 1;
-            if (maxValue - minValue > 2) {
-                answerNumber  = Math.floor((minValue + maxValue) / 2);
-            } else {
-                answerNumber = minValue;
-            }
-            
+            maxValue = answerNumber - 1;
+            answerNumber  = Math.ceil((minValue + maxValue) / 2);
             orderNumber++;
             orderNumberField.innerText = orderNumber;
             answerField.innerText = getQuestion();
         }
     }
 })
+
 
 //Кн. "Верно"
 document.getElementById('btnEqual').addEventListener('click', function () {
@@ -91,7 +79,7 @@ function getQuestion() {
 //Генерация ответа при угадывании
 function getAnswer() {
     let numberAnswer = Math.round( Math.random() * 3);
-
+    
     switch (numberAnswer) {
         case 0: return `Я всегда угадываю\n\u{1F60E}`;
         case 1: return `Это было довольно легко\n\u{1F642}`;
@@ -99,6 +87,18 @@ function getAnswer() {
         case 3: return `Кто бы сомневался в моих способностях\n\u{1F4AA}`;
     }
 }
+
+//Генерация ответа при невозможности решения
+function getFailureReaction() {
+    let reaction = Math.round( Math.random() * 3);
+
+    switch (reaction) {
+        case 0: return `Вы загадали неправильное число!\n\u{1F914}`;
+        case 1: return `Я сдаюсь..\n\u{1F92F}`;
+        case 2: return `Такого не может быть \n\u{1F615}`
+    }
+}
+
 
 //Генерация текстового представления числа в вопросе
 function getTextFromNumber(number) {

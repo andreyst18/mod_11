@@ -1,26 +1,47 @@
-let minValue;
-let maxValue
+const startModal = document.getElementById('startModal'); //стартовое мод. окно
+const minModal = document.getElementById('minModal'); //мод. окно ввода мин. значения
+const maxModal = document.getElementById('maxModal'); //мод. окно ввода макс. значения
+const makeNumber = document.getElementById('makeNumber'); //мод. окно загадывания числа
+const wrongRange = document.getElementById('wrongRange'); //мод. окно при неверных данных
+const gameField = document.getElementById('gameField'); //окно игры
+const defaultMinValue = 0;
+const defaultMaxValue = 100;
 
-enterAndCheckValues();
+let minValue; //мин. значение
+let maxValue; //макс. значение
+let answerNumber; //вариант отгадываемого числа
+let orderNumber; //номер вопроса
+let gameRun; //игра запущена
+let orderNumberField; 
+let answerField;
+let isMaxLessMin = false;
 
-let answerNumber  = Math.floor((minValue + maxValue) / 2);
-let orderNumber = 1;
-let gameRun = true;
-let orderNumberField = document.getElementById('orderNumberField');
-let answerField = document.getElementById('answerField');
-orderNumberField.innerText = orderNumber;
-answerField.innerText = getQuestion();
+
+window.onload = function() {
+    startModal.style.display = 'flex';
+}
+
+document.getElementById('btnStart').onclick = function() {
+    startModal.style.display = 'none';
+    minModal.style.display = 'flex';
+}
+
+document.getElementById('confirmMin').onclick = enterMinValue;
+
+document.getElementById('confirmMax').onclick = enterMaxValue;
+
+document.getElementById('confirmReady').onclick = function() {
+    makeNumber.style.display = 'none';
+    gameField.style.display = 'flex';
+    startGame();
+}
+
 
 //Кн. "Заново"
 document.getElementById('btnRetry').addEventListener('click', function () {
-    gameRun = true;
-
-    enterAndCheckValues();
-    
-    orderNumber = 1;
-    orderNumberField = orderNumber;
-    answerNumber  = Math.floor( (minValue + maxValue) / 2 );  
-    answerField.innerText = `Вы загадали число ${answerNumber }?`;
+    gameField.style.display = 'none';
+    minModal.style.display = 'flex';
+    document.getElementById('confirmMin').onclick;
 })
 
 //Кн. "Больше"
@@ -62,7 +83,104 @@ document.getElementById('btnLess').addEventListener('click', function () {
 document.getElementById('btnEqual').addEventListener('click', function () {
     answerField.innerText = getAnswer();
     gameRun = false;
+    
 })
+
+//Отображение мод. окна при неправильном диапазоне значений
+function showWrong() {
+    gameField.style.display = 'none';
+    wrongRange.style.display = 'flex';
+    document.getElementById('confirmWrong').onclick = function() {
+        wrongRange.style.display = 'none';
+        minModal.style.display = 'flex';
+        document.getElementById('confirmMin').onclick;
+    }
+}
+
+//Отображение мод. окна ввода мин. значения
+function enterMinValue() {
+    minModal.style.display = 'flex';
+    minValue = document.getElementById('minValue').value;
+    if (!minValue) {
+        minValue = defaultMinValue;
+    }
+    minModal.style.display = 'none';
+    maxModal.style.display = 'flex';
+}
+
+//Отображение мод. окна ввода макс. значения
+function enterMaxValue() {
+    maxValue = document.getElementById('maxValue').value;
+    if (!maxValue) {
+        maxValue = defaultMaxValue;
+    }
+
+    document.getElementById('minValue').value = '';
+    document.getElementById('maxValue').value = '';
+
+    checkNaN();
+    checkMaxLessMin();
+    checkRange();
+
+    maxModal.style.display = 'none';
+    
+    if (!isMaxLessMin) {
+        makeNumber.style.display = 'flex';
+        document.getElementById('makeNumberText').innerHTML = `Загадайте любое целое число 
+        от ${minValue} до ${maxValue}, а я его угадаю`;
+    }
+    
+}
+
+//Отображение мод. окна для загадывания значения
+function makeNumberFunc() {
+    gameField.style.display = 'none';
+    makeNumber.style.display = 'flex';
+}
+
+
+//Проверка макс. < мин.
+function checkMaxLessMin() {
+    if (maxValue < minValue) {
+        isMaxLessMin = true;
+        showWrong();
+        while (maxValue < minValue) {
+            enterMinValue();
+        }
+    } else {
+        isMaxLessMin = false;
+    }
+}
+
+function checkRange() {
+    minValue = (minValue < -999) ? -999 : minValue;
+    minValue = (minValue > 999) ? 999 : minValue;
+
+    maxValue = (maxValue < -999) ? -999 : maxValue;
+    maxValue = (maxValue > 999) ? 999 : maxValue;
+}
+
+//Проверка на NaN
+function checkNaN() {
+    minValue = parseInt(minValue);
+    minValue = ( isNaN(minValue) ) ? defaultMinValue : minValue;
+    maxValue = parseInt(maxValue);
+    maxValue = ( isNaN(maxValue) ) ? defaultMaxValue : maxValue;
+    
+}
+
+//Старт игры, заполнение полей интерфейса
+function startGame() {
+    gameField.style.display = 'flex';
+    answerNumber  = Math.floor((minValue + maxValue) / 2);
+    orderNumber = 1;
+    gameRun = true;
+    orderNumberField = document.getElementById('orderNumberField');
+    answerField = document.getElementById('answerField');
+    orderNumberField.innerText = orderNumber;
+    answerField.innerText = getQuestion();
+}
+
 
 //Генерация вопроса
 function getQuestion() {
@@ -157,32 +275,7 @@ function getTextFromNumber(number) {
     }
 }
 
-//Ввод и проверка значений
-function enterAndCheckValues() {
-    minValue = parseInt( prompt('Минимальное значение числа для игры','0') );
-    minValue = ( isNaN(minValue) ) ? 0 : minValue;
-    maxValue = parseInt( prompt('Максимальное значение числа для игры','100' ) );
-    maxValue = ( isNaN(maxValue) ) ? 100 : maxValue;
 
-    if (maxValue < minValue) {
-        alert('Неверно задан диапазон значений!');
-    }
-    while (maxValue < minValue) {
-        minValue = parseInt(prompt('Минимальное значение числа для игры','0'));
-        maxValue = parseInt(prompt('Максимальное значение числа для игры','100'));
-        if (maxValue < minValue) {
-            alert('Неверно задан диапазон значений!');
-        }
-    }
-    
-    minValue = (minValue < -999) ? -999 : minValue;
-    minValue = (minValue > 999) ? 999 : minValue;
-
-    maxValue = (maxValue < -999) ? -999 : maxValue;
-    maxValue = (maxValue > 999) ? 999 : maxValue;
-
-    alert(`Загадайте любое целое число от ${minValue} до ${maxValue}, а я его угадаю`);
-}
 
 //Получение названий для чисел 1-9
 function getNumberName1_9(arg) {
@@ -244,10 +337,3 @@ function getNumberName100_900(arg) {
         case '9': return 'девятьсот';
     }
 }
-
-
-
-
-
-
-

@@ -9,34 +9,118 @@
     <link rel="stylesheet" href="style.css" type="text/css"/>
 </head>
 <body>
-<div class="container">
-    <div class="row game-card align-items-center">
-        <div class="col col-md-4 offset-md-4">
-            <div class="card text-center">
-                <div class="card-header">
-                    <p class="m-0">Вопрос №<span id="orderNumberField"></span></p>
-                </div>
-                <div class="card-body">
-                    <div class="row no-gutters">
-                        <div class="col">
-                            <h3 class="card-title m-0"><span id="answerField"></span></h3>
+    
+<!--Стартовое модальное окно-->
+<div id="startModal" class="modalWindow">
+    <div class="modal-content">
+        <div class="modal-header">
+        </div>
+        <div class="modal-body">
+            <p>Предлагаем Вам сыграть в игру "Угадайка"</p>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-info" id="btnStart">Начать игру!</button>
+        </div>
+    </div>
+</div>
+
+
+<!--Модальное окно для мин. числа-->
+<div id="minModal" class="modalWindow">
+    <div class="modal-content">
+        <div class="modal-header">
+        </div>
+        <div class="modal-body">
+            <p>Введите минимальное значение числа для игры:</p>
+        </div>
+        <form>
+            <input type="text" id="minValue" value="">
+        </form>
+        <div class="modal-footer">
+            <button class="btn btn-info" id="confirmMin">OK</button>
+        </div>
+    </div>
+</div>
+
+
+
+<!--Модальное окно для макс. числа-->
+<div id="maxModal" class="modalWindow">
+    <div class="modal-content">
+        <div class="modal-header">
+        </div>
+        <div class="modal-body">
+            <p>Введите максимальное значение числа для игры:</p>
+        </div>
+        <form>
+            <input type="text" id="maxValue">
+        </form>
+        <div class="modal-footer">
+            <button class="btn btn-info" id="confirmMax">OK</button>
+        </div>
+    </div>
+</div>
+
+<!--Модальное окно для загадывания числа-->
+<div id="makeNumber" class="modalWindow">
+    <div class="modal-content">
+        <div class="modal-header">
+        </div>
+        <div class="modal-body">
+            <p id="makeNumberText">Текст</p>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-info" id="confirmReady">Готово</button>
+        </div>
+    </div>
+</div>
+
+<!--Модальное окно при неверном диапазоне значений-->
+<div id="wrongRange" class="modalWindow">
+    <div class="modal-content">
+        <div class="modal-header">
+        </div>
+        <div class="modal-body">
+            <p id="wrongRangeText">Ошибка в данных! Максимальное число не может быть меньше минимального!</p>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-info" id="confirmWrong">OK</button>
+        </div>
+    </div>
+</div>
+
+
+
+<div id="gameField">
+    <div class="container">
+        <div class="row game-card align-items-center">
+            <div class="col col-md-4 offset-md-4">
+                <div class="card text-center">
+                    <div class="card-header">
+                        <p class="m-0">Вопрос №<span id="orderNumberField"></span></p>
+                    </div>
+                    <div class="card-body">
+                        <div class="row no-gutters">
+                            <div class="col">
+                                <h3 class="card-title m-0"><span id="answerField"></span></h3>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="card-body">
-                    <div class="btn-group">
-                        <button class="btn btn-info" id="btnLess">&#129047;<br>меньше</button>
-                        <button class="btn btn-success btn-lg" id="btnEqual">Верно!</button>
-                        <button class="btn btn-info" id="btnOver">больше<br>&#129045;</button>
+                    <div class="card-body">
+                        <div class="btn-group">
+                            <button class="btn btn-info" id="btnLess">&#129047;<br>меньше</button>
+                            <button class="btn btn-success btn-lg" id="btnEqual">Верно!</button>
+                            <button class="btn btn-info" id="btnOver">больше<br>&#129045;</button>
+                        </div>
                     </div>
-                </div>
-                <div class="card-footer">
-                    <button class="btn btn-link" id="btnRetry">Заново</button>
+                    <div class="card-footer">
+                        <button class="btn btn-link" id="btnRetry">Заново</button>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-<script src="script.js"></script>
+<script src="script.js" async></script>
 </body>
 </html>

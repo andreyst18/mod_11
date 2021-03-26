@@ -105,6 +105,9 @@ function enterMinValue() {
     if (!minValue) {
         minValue = defaultMinValue;
     }
+
+    maxValue = defaultMaxValue;
+
     minModal.style.display = 'none';
     maxModal.style.display = 'flex';
 }

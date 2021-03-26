@@ -79,13 +79,13 @@
 <!--Модальное окно при неверном диапазоне значений-->
 <div id="wrongRange" class="modalWindow">
     <div class="modal-content">
-        <div class="modal-header">
+        <div class="modal-header header-wrong">
         </div>
-        <div class="modal-body">
-            <p id="wrongRangeText">Ошибка в данных! Максимальное число не может быть меньше минимального!</p>
+        <div class="modal-body body-wrong">
+            <span id="wrongRangeText">Ошибка в данных: максимальное число не может быть меньше минимального!</span>
         </div>
-        <div class="modal-footer">
-            <button class="btn btn-info" id="confirmWrong">OK</button>
+        <div class="modal-footer footer-wrong">
+            <button class="btn btn-light" id="confirmWrong">OK</button>
         </div>
     </div>
 </div>
@@ -110,7 +110,7 @@
                     <div class="card-body">
                         <div class="btn-group">
                             <button class="btn btn-info" id="btnLess">&#60;<br>меньше</button>
-                            <button class="btn btn-success btn-lg" id="btnEqual">&#9989;</button>
+                            <button class="btn btn-success btn-lg" id="btnEqual">&#10004;</button>
                             <button class="btn btn-info" id="btnOver">&#62;<br>больше</button>
                         </div>
                     </div>

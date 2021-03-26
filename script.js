@@ -81,9 +81,10 @@ document.getElementById('btnLess').addEventListener('click', function () {
 
 //Кн. "Верно"
 document.getElementById('btnEqual').addEventListener('click', function () {
-    answerField.innerText = getAnswer();
-    gameRun = false;
-    
+    if (gameRun) {
+        answerField.innerText = getAnswer();    
+        gameRun = false;
+    }
 })
 
 //Отображение мод. окна при неправильном диапазоне значений
@@ -188,8 +189,8 @@ function getQuestion() {
 
     switch (numberQuestion) {
         case 0: return "Вы загадали число " + getTextFromNumber(answerNumber) + "?";
-        case 1: return "Вероятно это число " + getTextFromNumber(answerNumber) + "?";
-        case 2: return "Этим числом, наверняка, является " + getTextFromNumber(answerNumber) +"?";
+        case 1: return "Вероятно это число " + getTextFromNumber(answerNumber) + "...";
+        case 2: return "Этим числом, наверняка, является " + getTextFromNumber(answerNumber) +"!";
         case 3: return "А может быть это " + getTextFromNumber(answerNumber) + "?";
     }
 }
